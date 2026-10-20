@@ -24,4 +24,10 @@ Lo único que he tenido que indicar en Render para que funcione es:
 
 # Url Render
 
-Url:
+Url: [https://ut2-fastapi-alejandroandres.onrender.com/](https://ut2-fastapi-alejandroandres.onrender.com/)
+
+---
+
+# Datos de prueba
+
+El archivo [datos_prueba.txt](datos_prueba.txt) tiene ejemplos de datos con diferentes escenarios (rentable bien, rentable mal y rentable muy mal) para poder probar la aplicación.
