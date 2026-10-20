@@ -493,6 +493,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 38px;
 }
 
 .metric-icon-wrap {
@@ -513,6 +514,8 @@ body {
 .metric-titles {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  min-width: 0;
 }
 
 .metric-title {
@@ -521,13 +524,21 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .metric-rule {
   font-size: 0.66rem;
   color: var(--text-muted);
   font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  line-height: 1.2;
 }
+
+
 
 .metric-input-box {
   display: flex;

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nombresCampos = {
     nombre_juego: "Título del Juego",
     meses_desarrollo: "Tiempo Desarrollo",
-    presupuesto_desarrollo: "Presupuesto Invertido",
+    presupuesto_desarrollo: "Presupuesto",
     precio_venta_estimado: "Precio Juego",
     tiene_multijugador: "Modo Multijugador"
   };
