@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameDev Calc</title>
+    <meta
+      name="description"
+      content="Simulador interactivo para calcular la viabilidad comercial y retorno de inversión de juegos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./static/style.css" />
+  </head>
+  <body>
+    <!-- Efectos visuales de fondo -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="page-container">
+      <!-- Encabezado con estado del servidor -->
+      <header class="app-header glass-card">
+        <div class="header-brand">
+          <div class="brand-avatar">
+            <svg
+              class="svg-icon svg-brand"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="6" y1="12" x2="10" y2="12"></line>
+              <line x1="8" y1="10" x2="8" y2="14"></line>
+              <line x1="15" y1="13" x2="15.01" y2="13"></line>
+              <line x1="18" y1="11" x2="18.01" y2="11"></line>
+              <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+            </svg>
+            <span class="brand-pulse"></span>
+          </div>
+          <div class="brand-info">
+            <div class="brand-title-row">
+              <h1 class="brand-title">
+                GameDev <span class="gradient-text">Studio ROI</span>
+              </h1>
+              <span class="badge badge-subtle">v1.0</span>
+            </div>
+            <p class="brand-subtitle">
+              Simulador de viabilidad comercial y retorno de inversión para
+              juegos
+            </p>
+          </div>
+        </div>
+
+        <div class="header-status">
+          <div
+            class="server-badge"
+            id="server-badge"
+            title="Comprobando conexión con FastAPI..."
+          >
+            <span class="status-indicator"></span>
+            <span class="status-label" id="status-label">FastAPI Activo</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Panel principal: Formulario a la izquierda y Resultados a la derecha -->
+      <main class="calculator-grid">
+        <!-- Panel 1: Entrada de datos del juego -->
+        <section class="card glass-card form-panel">
+          <div class="panel-header-inline">
+            <div class="panel-title-wrap">
+              <span class="step-pill">1</span>
+              <div>
+                <h2 class="panel-title">Parámetros del Juego</h2>
+              </div>
+            </div>
+          </div>
+
+          <form id="formulario-rentabilidad" novalidate>
+            <div class="form-row-inline">
+              <div class="form-group flex-title">
+                <div class="label-row">
+                  <label for="nombre_juego" class="field-label">
+                    <svg
+                      class="svg-inline-icon text-cyan"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="22" y1="12" x2="18" y2="12"></line>
+                      <line x1="6" y1="12" x2="2" y2="12"></line>
+                      <line x1="12" y1="6" x2="12" y2="2"></line>
+                      <line x1="12" y1="22" x2="12" y2="18"></line>
+                    </svg>
+                    Título del Juego
+                  </label>
+                </div>
+                <div class="input-wrapper text-input-wrapper">
+                  <input
+                    type="text"
+                    id="nombre_juego"
+                    name="nombre_juego"
+                    required
+                    minlength="1"
+                    maxlength="100"
+                    placeholder="Nombre de tu juego"
+                    value="Chrono Blade"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <!-- Selector de modo multijugador -->
+              <div class="multiplayer-compact-card">
+                <div class="switch-info">
+                  <div class="switch-icon-avatar">
+                    <svg
+                      class="svg-icon text-indigo"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="switch-title">Multijugador</p>
+                  </div>
+                </div>
+                <label class="toggle-switch" for="tiene_multijugador">
+                  <input type="checkbox" id="tiene_multijugador" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Métricas numéricas de desarrollo y presupuesto -->
+            <div class="metrics-grid">
+              <!-- Meses de desarrollo -->
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon-wrap icon-cyan">
+                    <svg
+                      class="svg-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </div>
+                  <div class="metric-titles">
+                    <span class="metric-title">Tiempo Desarrollo</span>
+                    <span class="metric-rule">1 a 120 meses</span>
+                  </div>
+                </div>
+                <div class="metric-input-box">
+                  <input
+                    type="number"
+                    id="meses_desarrollo"
+                    min="1"
+                    max="120"
+                    step="1"
+                    required
+                    value="12"
+                  />
+                  <span class="unit-tag">meses</span>
+                </div>
+              </div>
+
+              <!-- Presupuesto invertido -->
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon-wrap icon-green">
+                    <svg
+                      class="svg-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                      <circle cx="12" cy="12" r="2"></circle>
+                      <path d="M6 12h.01M18 12h.01"></path>
+                    </svg>
+                  </div>
+                  <div class="metric-titles">
+                    <span class="metric-title">Presupuesto Invertido</span>
+                    <span class="metric-rule">Mínimo: 1 €</span>
+                  </div>
+                </div>
+                <div class="metric-input-box">
+                  <input
+                    type="number"
+                    id="presupuesto_desarrollo"
+                    min="1"
+                    step="100"
+                    required
+                    value="1000"
+                  />
+                  <span class="unit-tag">€ EUR</span>
+                </div>
+              </div>
+
+              <!-- Precio de venta por copia -->
+              <div class="metric-card">
+                <div class="metric-header">
+                  <div class="metric-icon-wrap icon-purple">
+                    <svg
+                      class="svg-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                      ></path>
+                      <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                    </svg>
+                  </div>
+                  <div class="metric-titles">
+                    <span class="metric-title">Precio Juego</span>
+                    <span class="metric-rule">0.5 a 120 €</span>
+                  </div>
+                </div>
+                <div class="metric-input-box">
+                  <input
+                    type="number"
+                    id="precio_venta_estimado"
+                    min="0.5"
+                    max="120"
+                    step="0.5"
+                    required
+                    value="30"
+                  />
+                  <span class="unit-tag">€ PVP</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botón para enviar datos al backend -->
+            <div class="action-row">
+              <button
+                type="submit"
+                id="btn-enviar"
+                class="btn-primary-gradient"
+              >
+                <span class="btn-inner">
+                  <svg
+                    class="svg-btn-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon
+                      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+                    ></polygon>
+                  </svg>
+                  <span class="btn-text">Calcular Rentabilidad</span>
+                </span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Panel 2: Diagnóstico y resultado devuelto por la API -->
+        <section class="card glass-card results-panel" id="results-column">
+          <div class="panel-header-inline">
+            <div class="panel-title-wrap">
+              <span class="step-pill">2</span>
+              <div>
+                <h2 class="panel-title">Diagnóstico y Proyección</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-container">
+            <!-- Estado inicial en espera -->
+            <div id="panel-vacio" class="empty-state">
+              <div class="empty-icon-wrap">
+                <div class="empty-halo"></div>
+                <svg
+                  class="svg-empty-state"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M23 6l-9.5 9.5-5-5L1 18"></path>
+                  <path d="M17 6h6v6"></path>
+                </svg>
+              </div>
+              <h3 class="empty-title">Calculadora Lista</h3>
+              <p class="empty-desc">
+                Introduce las variables del desarrollo para proyectar los
+                resultados.
+              </p>
+
+              <div class="empty-guide-grid">
+                <div class="guide-item">
+                  <span class="guide-badge green-badge">Éxito</span>
+                  <span class="guide-text"
+                    >Recuperación ≤ 6 meses y probabilidad ≥ 60%</span
+                  >
+                </div>
+                <div class="guide-item">
+                  <span class="guide-badge red-badge">Riesgo</span>
+                  <span class="guide-text"
+                    >> 36 meses con bajo presupuesto penaliza el score</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Contenedor dinámico de resultados (éxito, riesgo o errores) -->
+            <div id="panel-resultado" class="hidden">
+              <div id="resultado-caja"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./static/app.js"></script>
+  </body>
+</html>
